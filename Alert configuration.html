@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Alerts Configuration</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: "Segoe UI", Tahoma, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      background: #f5f6fa;
+      color: #333;
+    }
+
+    /* Header */
+    .top-bar {
+      background: #ffffff;
+      padding: 15px 30px;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .top-bar a {
+      text-decoration: none;
+      color: #3b82f6;
+      margin-right: 20px;
+      font-weight: 500;
+    }
+
+    .top-bar a.active {
+      color: #000;
+      font-weight: 600;
+    }
+
+    /* Page container */
+    .container {
+      padding: 30px;
+    }
+
+    h1 {
+      margin-bottom: 25px;
+      font-size: 24px;
+    }
+
+    /* Cards layout */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 25px;
+    }
+
+    .card {
+      background: #ffffff;
+      padding: 20px;
+      border-radius: 8px;
+      border: 1px solid #e5e7eb;
+    }
+
+    .card h2 {
+      font-size: 18px;
+      margin-bottom: 5px;
+    }
+
+    .card p {
+      font-size: 13px;
+      color: #666;
+      margin-bottom: 15px;
+    }
+
+    label {
+      font-size: 14px;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    input[type="range"] {
+      width: 100%;
+    }
+
+    .value-box {
+      width: 60px;
+      padding: 6px;
+      margin-top: 5px;
+    }
+
+    .checkbox-group {
+      margin-bottom: 10px;
+    }
+
+    .checkbox-group input {
+      margin-right: 8px;
+    }
+
+    input[type="email"],
+    textarea {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      margin-top: 5px;
+    }
+
+    textarea {
+      resize: none;
+      height: 80px;
+    }
+
+    .guide {
+      background: #f9fafb;
+      padding: 10px;
+      border-radius: 6px;
+      font-size: 13px;
+      margin-top: 15px;
+    }
+
+    .guide ul {
+      padding-left: 18px;
+      margin: 5px 0 0;
+    }
+
+    button {
+      background: #3b82f6;
+      color: #fff;
+      border: none;
+      padding: 10px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+
+    button:hover {
+      background: #2563eb;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <div class="top-bar">
+   
+    <a href="#" class="active">Alerts Configuration</a>
+  </div>
+
+  <!-- Main Content -->
+  <div class="container">
+    <h1>Adjustment</h1>
+
+    <div class="cards">
+
+      <!-- Decibel Thresholds -->
+      <div class="card">
+        <h2>Decibel Thresholds</h2>
+        <p>Set the minimum and maximum decibel levels to trigger alerts.</p>
+
+        <label>Minimum Threshold (50 dB)</label>
+        <input type="range" min="30" max="100" value="50">
+        <input class="value-box" type="number" value="50">
+
+        <br><br>
+
+        <label>Maximum Threshold (80 dB)</label>
+        <input type="range" min="30" max="120" value="80">
+        <input class="value-box" type="number" value="80">
+
+        <div class="guide">
+          <strong>Decibel Level Guide:</strong>
+          <ul>
+            <li>50 dB: Quiet conversation, refrigerator hum</li>
+            <li>70 dB: Washing machine, busy street noise</li>
+            <li>85 dB: Heavy city traffic, noisy restaurant</li>
+            <li>100 dB: Motorcycle, power tools</li>
+          </ul>
+        </div>
+
+        <button>Save Thresholds</button>
+      </div>
+
+      <!-- Notification Methods -->
+      <div class="card">
+        <h2>Notification Methods</h2>
+        <p>Choose how you want to be notified when thresholds are exceeded.</p>
+
+        <div class="checkbox-group">
+          <label><input type="checkbox" checked> Visual Alert (On-screen indicator)</label>
+        </div>
+
+        <div class="checkbox-group">
+          <label><input type="checkbox"> Sound Alert (Audible alarm)</label>
+        </div>
+
+        <div class="checkbox-group">
+          <label><input type="checkbox" checked> Email Notification</label>
+        </div>
+
+        <label>Recipient Email</label>
+        <input type="email" value="admin@classroomdb.com">
+
+        <button>Save Notifications</button>
+      </div>
+
+      <!-- Quiet Periods -->
+      <div class="card">
+        <h2>Quiet Periods</h2>
+        <p>Schedule times when alerts should be automatically paused.</p>
+
+        <div class="checkbox-group">
+          <label><input type="checkbox"> Enable Quiet Periods</label>
+        </div>
+
+        <label>Notes / Exclusions</label>
+        <textarea placeholder="E.g. exclude during fire drills, specific events..."></textarea>
+
+        <button>Save Quiet Periods</button>
+      </div>
+
+    </div>
+  </div>
+
+</body>
+</html>
