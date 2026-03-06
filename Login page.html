@@ -14,32 +14,12 @@
         }
 
         body {
-            height: 100vh;
-            display: flex;
-        }
-
-        .left-section {
-            flex: 1;
-            background: linear-gradient(135deg, #4e73df, #1cc88a);
-            color: white;
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 40px;
-        }
-
-        .left-section h1 {
-            font-size: 36px;
-            text-align: center;
-        }
-
-        .right-section {
-            flex: 1;
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            padding-right: 100px;
             background: #f8f9fc;
+            padding: 20px;
         }
 
         .login-container {
@@ -56,8 +36,18 @@
             text-align: center;
         }
 
+        .error-box {
+            background: #ffe5e5;
+            color: #b30000;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
         .input-group {
             margin-bottom: 20px;
+            position: relative;
         }
 
         .input-group label {
@@ -70,6 +60,7 @@
         .input-group input {
             width: 100%;
             padding: 10px;
+            padding-right: 35px;
             border-radius: 6px;
             border: 1px solid #ccc;
             outline: none;
@@ -79,6 +70,20 @@
         .input-group input:focus {
             border-color: #4e73df;
             box-shadow: 0 0 5px rgba(78,115,223,0.3);
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 10px;
+            top: 32px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #777;
+            user-select: none;
+        }
+
+        .toggle-password:hover {
+            color: #4e73df;
         }
 
         .login-btn {
@@ -91,55 +96,56 @@
             font-size: 16px;
             cursor: pointer;
             transition: 0.3s;
+            margin-top: 10px;
         }
 
         .login-btn:hover {
             background: #2e59d9;
         }
-
-        @media (max-width: 900px) {
-            body {
-                flex-direction: column;
-            }
-
-            .right-section {
-                justify-content: center;
-                padding-right: 0;
-                padding: 40px;
-            }
-
-            .left-section {
-                height: 40vh;
-            }
-        }
     </style>
 </head>
+
 <body>
 
-    <div class="left-section">
-        <h1>Classroom Noise Detection System</h1>
-    </div>
+<div class="login-container">
+    <h2>Login</h2>
 
-    <div class="right-section">
-        <div class="login-container">
-            <h2>Login</h2>
-            <form action="#" method="POST">
+    <?php if (!empty($error)): ?>
+        <div class="error-box"><?php echo htmlspecialchars($error); ?></div>
+    <?php endif; ?>
 
-                <div class="input-group">
-                    <label>Email</label>
-                    <input type="email" required>
-                </div>
+    <form action="process_login.php" method="POST">
 
-                <div class="input-group">
-                    <label>Password</label>
-                    <input type="password" required>
-                </div>
-
-                <button type="submit" class="login-btn">Login</button>
-
-            </form>
+        <div class="input-group">
+            <label>Email</label>
+            <input type="email" name="email" required>
         </div>
-    </div>
+
+        <div class="input-group">
+            <label>Password</label>
+            <input type="password" id="passwordInput" name="password" required>
+            <span class="toggle-password" onclick="togglePassword()">👁️</span>
+        </div>
+
+        <button type="submit" class="login-btn">Login</button>
+
+    </form>
+</div>
+
+<script>
+function togglePassword() {
+    var passwordInput = document.getElementById("passwordInput");
+    var icon = document.querySelector(".toggle-password");
+
+    if (passwordInput.type === "password") {
+        passwordInput.type = "text";
+        icon.textContent = "🔒";
+    } else {
+        passwordInput.type = "password";
+        icon.textContent = "👁️";
+    }
+}
+</script>
 
 </body>
 </html>
