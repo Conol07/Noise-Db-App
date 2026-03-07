@@ -38,7 +38,7 @@ input[type="password"] {
 button {
     width: 100%;
     padding: 12px;
-    background-color: #4CAF50; /* green */
+    background-color: #489f; /* green */
     color: white;
     border: none;
     border-radius: 6px;
@@ -48,7 +48,7 @@ button {
 }
 
 button:hover {
-    background-color: #45a049;
+    background-color: #489f;
 }
 
 .link {
@@ -56,7 +56,7 @@ button:hover {
 }
 
 .link a {
-    color: #4CAF50;
+    color: #489f;
     text-decoration: none;
     font-size: 14px;
 }
