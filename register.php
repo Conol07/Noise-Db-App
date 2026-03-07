@@ -2,7 +2,7 @@
 <html>
 <head>
 
-<title>Login</title>
+<title>Register</title>
 <link rel="stylesheet" href="style.css">
 
 </head>
@@ -11,20 +11,22 @@
 
 <div class="container">
 
-<h2>Login</h2>
+<h2>Create Account</h2>
 
-<form action="login_process.php" method="POST">
+<form action="register_process.php" method="POST">
 
 <input type="text" name="username" placeholder="Username" required>
 
+<input type="email" name="email" placeholder="Email" required>
+
 <input type="password" name="password" placeholder="Password" required>
 
-<button type="submit" name="login">Login</button>
+<button type="submit" name="register">Register</button>
 
 </form>
 
 <div class="link">
-<a href="register.php">Create Account</a>
+<a href="login.php">Already have an account?</a>
 </div>
 
 </div>
