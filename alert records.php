@@ -4,34 +4,20 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Alerts Record</title>
-
-  
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --primary: #2489ff;
       --bg: #f4f5f7;
       --card: #ffffff;
       --text: #171a1f;
       --muted: #6b7280;
       --border: #e5e7eb;
-      --critical: #f87171;
-      --warning: #facc15;
     }
 
-    * {
-      box-sizing: border-box;
-      font-family: 'Archivo', sans-serif;
-    }
+    * { box-sizing: border-box; font-family: 'Archivo', sans-serif; }
+    body { margin: 0; background: var(--bg); color: var(--text); }
 
-    body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--text);
-    }
-
-    
     header {
       background: #fff;
       border-bottom: 1px solid var(--border);
@@ -41,207 +27,63 @@
       align-items: center;
     }
 
-    nav a {
-      margin-left: 24px;
-      font-size: 14px;
-      text-decoration: none;
-      color: var(--muted);
-    }
+    header h1 { font-size: 18px; margin: 0; }
+    nav a { color: #000; font-weight: 600; text-decoration: none; font-size: 14px; }
 
-    nav a.active {
-      color: var(--primary);
-      font-weight: 600;
-    }
-
+    .container { max-width: 1000px; margin: 32px auto; padding: 0 24px; }
+    .card { background: var(--card); border-radius: 8px; padding: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
     
-    .container {
-      max-width: 1200px;
-      margin: 24px auto;
-      padding: 0 24px;
-    }
-
-    h2 {
-      margin-bottom: 16px;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
-    }
-
-    .card {
-      background: var(--card);
-      border-radius: 8px;
-      padding: 20px;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-    }
-
-    .card h3 {
-      margin-top: 0;
-      font-size: 16px;
-    }
-
-    .card p {
-      font-size: 13px;
-      color: var(--muted);
-    }
-
-    label {
-      font-size: 13px;
-      display: block;
-      margin: 12px 0 6px;
-    }
-
-    input[type="range"] {
-      width: 100%;
-    }
-
-    input[type="checkbox"],
-    input[type="email"],
-    textarea {
-      margin-top: 8px;
-    }
-
-    input[type="email"],
-    textarea {
-      width: 100%;
-      padding: 8px;
-      border-radius: 6px;
-      border: 1px solid var(--border);
-      font-size: 13px;
-    }
-
-    textarea {
-      resize: vertical;
-    }
-
-    .value {
-      font-size: 12px;
-      color: var(--muted);
-      text-align: right;
-    }
-
-    .btn {
-      margin-top: 12px;
-      width: 100%;
-      padding: 10px;
-      border-radius: 6px;
-      border: none;
-      font-size: 13px;
-      cursor: pointer;
-    }
-
-    .btn-primary {
-      background: var(--primary);
-      color: #fff;
-    }
-
-  
-    .history {
-      margin-top: 32px;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 13px;
-    }
-
-    th, td {
-      padding: 12px;
-      border-bottom: 1px solid var(--border);
-      text-align: left;
-    }
-
-    th {
-      color: var(--muted);
-      font-weight: 600;
-    }
-
-    .badge {
-      padding: 4px 8px;
-      border-radius: 999px;
-      font-size: 11px;
-      font-weight: 600;
-      display: inline-block;
-    }
-
-    .high { background: #fee2e2; color: #7f1d1d; }
-    .moderate { background: #fef9c3; color: #854d0e; }
-    .low { background: #dcfce7; color: #166534; }
-
-    .table-footer {
-      display: flex;
-      justify-content: space-between;
-      padding-top: 12px;
-      font-size: 12px;
-      color: var(--muted);
-    }
-
-    @media (max-width: 900px) {
-      .grid {
-        grid-template-columns: 1fr;
-      }
-    }
+    table { width: 100%; border-collapse: collapse; margin-top: 16px; }
+    th { color: var(--muted); font-size: 12px; text-align: left; padding: 12px; border-bottom: 2px solid var(--bg); }
+    td { padding: 16px 12px; border-bottom: 1px solid var(--border); font-size: 14px; color: var(--muted); }
   </style>
+</head>
+<body>
 
 <header>
-  <h1 class="formal-header">Classroom Noise Alert</h1>
+  <h1>Alert Records</h1>
   <nav>
-    <a href="dashboard.php" class="alert-btn">Home</a>
+    <a href="dashboard.php">Home</a>
   </nav>
 </header>
 
-
-
-  
-  <div class="card history">
-    <h3>Alert History</h3>
-
+<div class="container">
+  <div class="card">
+    <h3 style="margin-top:0">Recent Alert History</h3>
     <table>
       <thead>
         <tr>
-          <th>Timestamp</th>
-          <th>dB Level</th>
+          <th>Classroom</th> <th>Timestamp</th>
+          <th>Level</th>
           <th>Severity</th>
-          <th>Classroom</th>
           <th>Action</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td>----/--/--    --:-- AM</td>
-          <td>-- dB</td>
-          <td><span class="badge low">Low</span></td>
+          <td>Laboratory 1</td>
           <td>--</td>
-          <td>👁</td>
+          <td>--</td>
+          <td>--</td>
+          <td>--</td>
         </tr>
         <tr>
-          <td>----/--/--    --:-- AM</td>
-          <td>-- dB</td>
-          <td><span class="badge low">Low</span></td>
+          <td>Laboratory 2</td>
           <td>--</td>
-          <td>👁</td>
+          <td>--</td>
+          <td>--</td>
+          <td>--</td>
         </tr>
         <tr>
-          <td>----/--/--    --:-- AM</td>
-          <td>-- dB</td>
-          <td><span class="badge low">Low</span></td>
+          <td>Laboratory 3</td>
           <td>--</td>
-          <td>👁</td>
+          <td>--</td>
+          <td>--</td>
+          <td>--</td>
         </tr>
-        <tr>
-          
       </tbody>
     </table>
-
-    <div class="table-footer">
-      <span>Showing 1 of 3 alerts</span>
-      <span>Previous | Next</span>
-    </div>
   </div>
-
 </div>
 
 </body>

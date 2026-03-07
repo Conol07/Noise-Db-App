@@ -3,12 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Classroom Noise Detection– Dashboard</title>
-
-  
+  <title>Classroom Noise Detection – Dashboard</title>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700&display=swap" rel="stylesheet">
-
-  
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <style>
@@ -19,23 +15,11 @@
       --text-dark: #171a1f;
       --text-muted: #6b7280;
       --border: #e5e7eb;
-      --warning: #facc15;
-      --alert: #f87171;
-      --success: #22c55e;
     }
 
-    * {
-      box-sizing: border-box;
-      font-family: 'Archivo', sans-serif;
-    }
+    * { box-sizing: border-box; font-family: 'Archivo', sans-serif; }
+    body { margin: 0; background: var(--bg); color: var(--text-dark); }
 
-    body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--text-dark);
-    }
-
-    
     header {
       background: #fff;
       border-bottom: 1px solid var(--border);
@@ -45,211 +29,96 @@
       align-items: center;
     }
 
-    header h1 {
-      font-size: 20px;
-      margin: 0;
-    }
+    header h1 { font-size: 20px; margin: 0; }
 
+    nav { display: flex; align-items: center; gap: 24px; }
+    
     nav a {
-      margin-left: 24px;
       font-size: 14px;
-      color: var(--text-muted);
+      color: #000000; 
       text-decoration: none;
-    }
-
-    nav a.active {
-      color: rgba(0,0,0,0.5);
       font-weight: 600;
+      transition: opacity 0.2s;
     }
 
+    nav a:hover { opacity: 0.6; }
+
+    .container { max-width: 1200px; margin: 24px auto; padding: 0 24px; }
+    .card { background: var(--card-bg); border-radius: 8px; padding: 24px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); margin-bottom: 24px; }
     
-    .container {
-      max-width: 1200px;
-      margin: 24px auto;
-      padding: 0 24px;
-    }
-
-    .card {
-      background: var(--card-bg);
-      border-radius: 8px;
-      padding: 24px;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-      margin-bottom: 24px;
-    }
-
+    .live-db { text-align: center; }
+    .db-value { font-size: 56px; font-weight: 700; }
     
-    .live-db {
-      text-align: center;
-    }
-
-    .live-db h2 {
-      font-size: 14px;
-      color: var(--text-muted);
-      margin-bottom: 8px;
-    }
-
-    .db-value {
-      font-size: 56px;
-      font-weight: 700;
-    }
-
-    .db-value span {
-      font-size: 28px;
-      color: var(--text-muted);
-    }
-
-    
-    .grid {
-      display: grid;
-      grid-template-columns: 2fr 1fr;
-      gap: 24px;
-    }
-
-  
-    .classroom {
-      display: flex;
-      justify-content: space-between;
-      padding: 12px 0;
-      border-bottom: 1px solid var(--border);
-      font-size: 14px;
-    }
-
-    .status {
-      padding: 4px 10px;
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: 600;
-    }
-
+    .grid { display: grid; grid-template-columns: 2fr 1fr; gap: 24px; }
+    .classroom { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--border); font-size: 14px; }
+    .status { padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; }
     .normal { background: #dcfce7; color: #166534; }
-    .warning { background: #fef9c3; color: #854d0e; }
-    .alert { background: #fee2e2; color: #7f1d1d; }
-
     
-    .actions {
-      margin-top: 16px;
-    }
+    .btn { width: 100%; padding: 12px; border-radius: 6px; border: none; font-size: 14px; cursor: pointer; margin-top: 8px; }
+    .btn-outline { background: #fff; border: 1px solid var(--border); }
+    .btn-primary { background: var(--primary); color: #fff; }
 
-    .btn {
-      width: 100%;
-      padding: 12px;
-      border-radius: 6px;
-      border: none;
-      font-size: 14px;
-      cursor: pointer;
-      margin-top: 8px;
-    }
-
-    .btn-outline {
-      background: #fff;
-      border: 1px solid var(--border);
-    }
-
-    .btn-primary {
-      background: var(--primary);
-      color: #fff;
-    }
-
-    footer {
-      text-align: center;
-      font-size: 12px;
-      color: var(--text-muted);
-      padding: 16px 0;
-    }
-
-    @media (max-width: 900px) {
-      .grid {
-        grid-template-columns: 1fr;
-      }
-    }
+    footer { text-align: center; font-size: 12px; color: var(--text-muted); padding: 16px 0; }
+    @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
   </style>
-  
+</head>
+<body>
+
 <header>
   <h1>Classroom Noise Detection</h1>
   <nav>
-    <a class="active" href="#">Home</a>
-    <a href="Alert records.php" class="alert-btn">🔔</a>
+    <a href="Alert configuration.php">Alert Configuration</a>
+    <a href="Alert records.php" title="Notifications">🔔</a>
+    <a href="account settings.php" title="Account">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+        <circle cx="12" cy="7" r="4"></circle>
+      </svg>
+    </a>
   </nav>
 </header>
 
 <div class="container">
-
   <div class="card live-db">
-    
     <h2>🔔 Live Decibel Reading</h2>
     <div class="db-value"> 48 <span>dB</span></div>
-    <p style="color:var(--text-muted); font-size:14px;">
-      Current noise level in all monitored classrooms. 
-     
-    </p> 
   </div>
 
   <div class="grid">
-    
     <div class="card">
       <h3>Last Hour Noise Trend</h3>
       <canvas id="noiseChart"></canvas>
     </div>
 
-  
     <div class="card">
-  <h3>Classroom Status</h3>
-
-  
-
-  <div class="classroom">
-    <span>Laboratory 1 (- dB)</span>
-    <span class="status normal">Normal</span>
-  </div>
-
-  <div class="classroom">
-    <span>Laboratory 2 (- dB)</span>
-    <span class="status normal">Normal</span>
-  </div>
-
-  <div class="classroom">
-    <span>Laboratory 3 (- dB)</span>
-    <span class="status normal">Normal</span>
-  </div> 
-
-  <div class="actions">
-    <button class="btn btn-outline">🔇 Mute All Alerts</button>
-    <button class="btn btn-primary"> Activate Decibel </button>
-  </div>
-</div>
+      <h3>Classroom Status</h3>
+      <div class="classroom"><span>Laboratory 1</span> <span class="status normal">Normal</span></div>
+      <div class="classroom"><span>Laboratory 2</span> <span class="status normal">Normal</span></div>
+      <div class="classroom"><span>Laboratory 3</span> <span class="status normal">Normal</span></div> 
+      <div class="actions">
+        <button class="btn btn-outline">🔇 Mute All Alerts</button>
+        <button class="btn btn-primary">Activate Decibel</button>
+      </div>
     </div>
   </div>
 </div>
 
-<footer>
-  © 2026 Classroom Noice ALert. App.Dev.
-</footer>
+<footer>© 2026 Classroom Noise Alert. App.Dev.</footer>
 
 <script>
   const ctx = document.getElementById('noiseChart');
   new Chart(ctx, {
     type: 'line',
     data: {
-      labels: [],
+      labels: ['1h', '50m', '40m', '30m', '20m', 'Now'],
       datasets: [{
-        data: [52, 63, 58, 67, 55, 69],
+        data: [52, 63, 58, 67, 55, 48],
         borderColor: '#2489ff',
         backgroundColor: 'rgba(36,137,255,0.1)',
-        tension: 0.4,
-        fill: true,
-        pointRadius: 3
+        fill: true
       }]
     },
-    options: {
-      plugins: { legend: { display: false } },
-      scales: {
-        y: {
-          min: 45,
-          max: 75,
-          ticks: { stepSize: 5 }
-        }
-      }
-    }
+    options: { plugins: { legend: { display: false } } }
   });
 </script>
 
