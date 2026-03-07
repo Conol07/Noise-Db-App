@@ -201,41 +201,30 @@
 
   
     <div class="card">
-      <h3>Classroom Status</h3>
+  <h3>Classroom Status</h3>
 
-      <div class="classroom">
-        <span>Hallway (- dB)</span>
-        <span class="status normal">Normal</span>
-      </div>
-      <div class="classroom">
-        <span>1st Year (- dB)</span>
-        <span class="status normal">Normal</span>
-      </div>
-      <div class="classroom">
-        <span>2nd Year (- dB)</span>
-        <span class="status normal">Normal</span>
-      </div>
-      <div class="classroom">
-        <span>3rd Year (- dB)</span>
-        <span class="status normal">Normal</span>
-      </div>
-      <div class="classroom">
-        <span>4th Year - dB)</span>
-        <span class="status normal">Normal</span>
-      </div>
-      <div class="classroom">
-        <span>ICS FACULTY - dB)</span>
-        <span class="status normal">Normal</span>
-      </div>
-      <div class="classroom">
-        <span>IBM FACULTY (79 dB)</span>
-        <span class="status normal">Normal</span>
-      </div>
+  
 
-      <div class="actions">
-        <button class="btn btn-outline">🔇 Mute All Alerts</button>
-        <button class="btn btn-primary">✔ </button>
-      </div>
+  <div class="classroom">
+    <span>Laboratory 1 (- dB)</span>
+    <span class="status normal">Normal</span>
+  </div>
+
+  <div class="classroom">
+    <span>Laboratory 2 (- dB)</span>
+    <span class="status normal">Normal</span>
+  </div>
+
+  <div class="classroom">
+    <span>Laboratory 3 (- dB)</span>
+    <span class="status normal">Normal</span>
+  </div> 
+
+  <div class="actions">
+    <button class="btn btn-outline">🔇 Mute All Alerts</button>
+    <button class="btn btn-primary">✔ Confirm Status</button>
+  </div>
+</div>
     </div>
   </div>
 </div>
