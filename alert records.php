@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Alerts & Settings</title>
+  <title>Alerts Record</title>
 
   
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700&display=swap" rel="stylesheet">
@@ -185,16 +185,11 @@
       }
     }
   </style>
-</head>
-<body>
 
 <header>
-  <a href="index.html" class="alert-btn">Classroom Noise Alert</a>
+  <h1 class="formal-header">Classroom Noise Alert</h1>
   <nav>
-  
-  <a href="Home.html" class="alert-btn">Home</a>
-
-    
+    <a href="dashboard.php" class="alert-btn">Home</a>
   </nav>
 </header>
 
@@ -237,17 +232,12 @@
           <td>👁</td>
         </tr>
         <tr>
-          <td>----/--/--    --:-- AM</td>
-          <td>-- dB</td>
-          <td><span class="badge low">Low</span></td>
-          <td>--</td>
-          <td>👁</td>
-        </tr>
+          
       </tbody>
     </table>
 
     <div class="table-footer">
-      <span>Showing 4 of 7 alerts</span>
+      <span>Showing 1 of 3 alerts</span>
       <span>Previous | Next</span>
     </div>
   </div>

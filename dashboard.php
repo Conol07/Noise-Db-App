@@ -58,7 +58,7 @@
     }
 
     nav a.active {
-      color: var(--primary);
+      color: rgba(0,0,0,0.5);
       font-weight: 600;
     }
 
@@ -163,33 +163,25 @@
       }
     }
   </style>
-</head>
-<body>
-
+  
 <header>
   <h1>Classroom Noise Detection</h1>
   <nav>
     <a class="active" href="#">Home</a>
-
-    <a href="alert records.html" class="alert-btn">🔔</a>
-
-    
-    
-    
-    
+    <a href="Alert records.php" class="alert-btn">🔔</a>
   </nav>
 </header>
 
 <div class="container">
 
-  
   <div class="card live-db">
     
     <h2>🔔 Live Decibel Reading</h2>
-    <div class="db-value">NO IOT, NO RECORD <span>dB</span></div>
+    <div class="db-value"> 48 <span>dB</span></div>
     <p style="color:var(--text-muted); font-size:14px;">
-      Current noise level in all monitored classrooms.
-    </p>
+      Current noise level in all monitored classrooms. 
+     
+    </p> 
   </div>
 
   <div class="grid">
@@ -222,7 +214,7 @@
 
   <div class="actions">
     <button class="btn btn-outline">🔇 Mute All Alerts</button>
-    <button class="btn btn-primary">✔ Confirm Status</button>
+    <button class="btn btn-primary"> Activate Decibel </button>
   </div>
 </div>
     </div>
