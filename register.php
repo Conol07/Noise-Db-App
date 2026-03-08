@@ -1,17 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-
 <title>Register</title>
 <link rel="stylesheet" href="style.css">
-
 </head>
 
 <body>
 
 <div class="container">
 
-<h2>Create Account</h2>
+<h2>Register</h2>
 
 <form action="register_process.php" method="POST">
 
