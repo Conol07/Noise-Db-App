@@ -64,3 +64,16 @@ button:hover {
 .link a:hover {
     text-decoration: underline;
 }
+
+/* Add this to your <style> section */
+.btn-logout {
+  background-color: #ff4d4f; /* Red background */
+  color: #fff;               /* White text */
+  text-align: center;
+  text-decoration: none;
+  display: block;
+  margin-top: 10px;
+}
+.btn-logout:hover {
+  background-color: #d9363e; /* Darker red on hover */
+}

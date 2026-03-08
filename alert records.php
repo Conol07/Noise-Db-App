@@ -41,7 +41,7 @@
 <body>
 
 <header>
-  <h1>Alert Records</h1>
+  <h1>Notification</h1>
   <nav>
     <a href="dashboard.php">Home</a>
   </nav>

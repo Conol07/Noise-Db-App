@@ -17,7 +17,7 @@
         justify-content: space-between;
     }
     
-    /* Updated Home Link: Black, bold, and clean */
+
     .nav-home { 
         text-decoration: none; 
         color: #000000; 
