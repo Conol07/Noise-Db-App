@@ -82,9 +82,7 @@
         <button type="submit" class="btn btn-save">Save changes</button>
       </form>
 
-      <div style="display: flex; gap: 10px;">
-        <button class="btn btn-primary" onclick="window.location.href='switch_account.php'">Switch Account</button>
-        <a href="login.php" class="btn btn-logout">Log Out</a>
+      
       </div>
     </div>
   </div>
