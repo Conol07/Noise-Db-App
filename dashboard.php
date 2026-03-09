@@ -210,11 +210,7 @@ header h1{margin:0;font-size:20px;}
 
 <div class="drawer-footer">
 
-<button class="btn btn-outline" onclick="location.href='login.php'">
-Switch Account
-</button>
-
-<a href="logout.php" class="btn-logout"
+<a href="login.php" class="btn-logout"
 onclick="return confirm('Are you sure you want to log out?')">
 Log Out
 </a>
