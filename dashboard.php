@@ -55,7 +55,7 @@ header h1{margin:0;font-size:20px;}
   cursor:pointer;
 }
 
-/* Drawer */
+
 
 .drawer{
   position:fixed;
@@ -130,7 +130,7 @@ header h1{margin:0;font-size:20px;}
   border-radius:6px;
 }
 
-/* Layout */
+
 
 .container{
   max-width:1200px;
@@ -224,7 +224,7 @@ Log Out
 <div class="card live-db">
 <h2>🔔 Live Decibel Reading</h2>
 <div class="db-value" id="dbValue">48 <span>dB</span></div>
-<button class="btn btn-primary" onclick="toggleSim()">Toggle Mode</button>
+<button class="btn btn-primary" onclick="toggleSim()">Activate DB</button>
 </div>
 
 <div class="grid">
@@ -265,7 +265,7 @@ Log Out
 
 <script>
 
-// Drawer
+
 
 const menuBtn = document.getElementById('menuBtn');
 const navDrawer = document.getElementById('navDrawer');
@@ -275,7 +275,7 @@ menuBtn.onclick = () => navDrawer.classList.add('open');
 closeBtn.onclick = () => navDrawer.classList.remove('open');
 
 
-// Chart
+// Chart "simulation rani dri pwede ni ma live pero mic ang nahimung decibel"
 
 const ctx = document.getElementById('noiseChart');
 
