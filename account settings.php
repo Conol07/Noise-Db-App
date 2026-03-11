@@ -4,96 +4,124 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Account Settings – Classroom Noise</title>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
   <style>
     :root {
-      --primary: #2489ff;
-      --bg: #f4f5f7;
+      --primary: #2563eb;
+      --bg: #f8fafc;
       --card-bg: #ffffff;
-      --text-dark: #171a1f;
-      --border: #e5e7eb;
-      --success: #059669;
+      --text-dark: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --danger: #ef4444;
+      --shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
     }
-    body { font-family: 'Archivo', sans-serif; background: var(--bg); margin: 0; color: var(--text-dark); }
     
-    header { background: #fff; border-bottom: 1px solid var(--border); padding: 16px 32px; }
-    header .header-inner { max-width: 1200px; width: 100%; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
-    header h1 { font-size: 20px; margin: 0; }
+    * { box-sizing: border-box; font-family: 'Inter', sans-serif; }
+    body { margin: 0; background: var(--bg); color: var(--text-dark); line-height: 1.5; }
+
+    /* Header & Drawer (Consistent with Dashboard) */
+    header { 
+      background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(12px);
+      padding: 14px 40px; border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 100;
+    }
+    .header-actions { display: flex; gap: 12px; align-items: center; }
+    .icon-btn { 
+      background: #fff; border: 1px solid var(--border);
+      padding: 8px 12px; border-radius: 10px; cursor: pointer; font-size: 18px; 
+    }
+
+    .drawer {
+      position: fixed; top: 0; right: -320px; width: 320px; height: 100%;
+      background: #fff; padding: 40px 30px; transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: -10px 0 50px rgba(0,0,0,0.1); z-index: 1001;
+    }
+    .drawer.open { right: 0; }
+    .close-btn { background: none; border: none; font-size: 30px; cursor: pointer; float: right; }
+
+    /* Content */
+    .container { max-width: 1000px; margin: 40px auto; padding: 0 24px; }
+    .card { background: var(--card-bg); padding: 40px; border-radius: 20px; border: 1px solid var(--border); box-shadow: var(--shadow); display: grid; grid-template-columns: 280px 1fr; gap: 60px; }
     
-    .home-btn { font-size: 14px; color: #000000; text-decoration: none; font-weight: 600; padding: 8px 16px; border: 1px solid var(--border); border-radius: 6px; }
+    .profile-sidebar { text-align: center; }
+    .profile-img { width: 160px; height: 160px; border-radius: 50%; background: #f1f5f9; object-fit: cover; margin-bottom: 20px; }
     
-    .container { max-width: 1200px; margin: 24px auto; padding: 0 24px; }
-    .card { background: var(--card-bg); padding: 24px; border-radius: 8px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); display: grid; grid-template-columns: 240px 1fr; gap: 40px; }
+    h3 { font-size: 16px; margin: 0 0 24px 0; font-weight: 700; }
+    .section { margin-bottom: 40px; }
+    label { display: block; font-size: 12px; font-weight: 600; margin-bottom: 8px; color: var(--text-muted); text-transform: uppercase; }
+    input { width: 100%; padding: 12px; margin-bottom: 20px; border: 1px solid var(--border); border-radius: 10px; background: #fcfcfd; }
     
-    .profile-sidebar { text-align: center; border-right: 1px solid var(--border); padding-right: 20px; }
-    .profile-img { width: 150px; height: 150px; border-radius: 50%; background: #eee; object-fit: cover; margin-bottom: 16px; border: 2px solid var(--border); }
-    
-    h3 { font-size: 18px; margin-top: 0; color: var(--primary); }
-    .section { margin-bottom: 24px; padding-bottom: 24px; border-bottom: 1px solid var(--border); }
-    
-    label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; }
-    input { width: 100%; padding: 8px; margin-bottom: 12px; border: 1px solid var(--border); border-radius: 6px; box-sizing: border-box; }
-    
-    .btn { padding: 8px 16px; border-radius: 6px; border: none; font-size: 13px; font-weight: 600; cursor: pointer; display: inline-block; text-align: center; text-decoration: none; }
-    .btn-primary { background: var(--primary); color: #fff; }
-    .btn-save { background: var(--success); color: #fff; }
-    .btn-logout { background: #fee2e2; color: #991b1b; }
+    .btn-save { background: var(--primary); color: #fff; border: none; padding: 12px 24px; border-radius: 10px; font-weight: 600; cursor: pointer; }
+    .btn-photo { background: #f1f5f9; color: var(--text-dark); border: 1px solid var(--border); padding: 10px 20px; border-radius: 10px; display: block; width: 100%; cursor: pointer; }
+
+    @media (max-width: 768px) { .card { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
 
 <header>
-  <div class="header-inner">
-    <h1>Account Settings</h1>
-    <a href="dashboard.php" class="home-btn">Home</a>
+  <strong>Account Settings</strong>
+  <div class="header-actions">
+    <a href="dashboard.php" class="icon-btn">🏠</a>
+    <button id="menuBtn" class="icon-btn">☰</button>
   </div>
 </header>
+
+<nav id="navDrawer" class="drawer">
+  <button id="closeBtn" class="close-btn">&times;</button>
+  <div style="margin-top: 60px;">
+    <a href="dashboard.php" style="display:block; padding: 14px 0; text-decoration:none; color:inherit; border-bottom:1px solid #eee;">Dashboard</a>
+    <a href="Alert configuration.php" style="display:block; padding: 14px 0; text-decoration:none; color:inherit; border-bottom:1px solid #eee;">Alert Configuration</a>
+  </div>
+</nav>
 
 <div class="container">
   <div class="card">
     <div class="profile-sidebar">
       <img id="profilePreview" src="https://via.placeholder.com/150" alt="Profile" class="profile-img">
       <input type="file" id="photoUpload" style="display:none;" onchange="previewImage(event)">
-      <label for="photoUpload" class="btn btn-primary" style="cursor:pointer;">Change Photo</label>
+      <label for="photoUpload" class="btn-photo">Change Photo</label>
     </div>
 
     <div>
-      <form action="update_profile.php" method="POST" class="section">
+      <form class="section">
         <h3>Profile Information</h3>
         <label>Full Name</label>
-        <input type="text" value="Administrator" name="fullname">
+        <input type="text" value="Administrator">
         <label>School ID</label>
-        <input type="text" placeholder="2026-0001" name="school_id">
+        <input type="text" placeholder="2026-0001">
         <label>Email Address</label>
-        <input type="email" value="admin@school.edu" name="email">
-        <button type="submit" class="btn btn-save">Save changes</button>
+        <input type="email" value="admin@school.edu">
+        <button type="button" class="btn-save">Save Changes</button>
       </form>
 
-      <form action="update_security.php" method="POST" class="section">
+      <form class="section">
         <h3>Security & Authentication</h3>
-        <label>Current Password</label>
-        <input type="password" name="current_pass" placeholder="••••••••">
         <label>New Password</label>
-        <input type="password" name="new_pass" placeholder="••••••••">
-        <label>2FA - Email</label>
-        <input type="email" name="2fa_email" placeholder="secondary-email@school.edu">
-        <label>2FA - Phone</label>
-        <input type="tel" name="2fa_phone" placeholder="+63 9XX XXX XXXX">
-        <button type="submit" class="btn btn-save">Save changes</button>
+        <input type="password" placeholder="••••••••">
+        <label>2FA Email</label>
+        <input type="email" placeholder="secondary@school.edu">
+        <button type="button" class="btn-save">Save Changes</button>
       </form>
-
-      
-      </div>
     </div>
   </div>
 </div>
 
 <script>
+  // Drawer logic
+  const menuBtn = document.getElementById('menuBtn');
+  const navDrawer = document.getElementById('navDrawer');
+  const closeBtn = document.getElementById('closeBtn');
+
+  menuBtn.onclick = () => navDrawer.classList.add('open');
+  closeBtn.onclick = () => navDrawer.classList.remove('open');
+
   function previewImage(event) {
     const reader = new FileReader();
-    reader.onload = function(){
-      document.getElementById('profilePreview').src = reader.result;
-    }
+    reader.onload = function(){ document.getElementById('profilePreview').src = reader.result; }
     reader.readAsDataURL(event.target.files[0]);
   }
 </script>
