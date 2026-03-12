@@ -77,14 +77,17 @@
   </header>
 
   <nav id="navDrawer" class="drawer">
-    <button id="closeBtn" class="close-btn">&times;</button>
-    <div class="drawer-section">
-    
-      <a href="account settings.php">Account Settings</a>
-      <a href="Report.php">Reports</a>
-    </div>
-    <a href="login.php" class="btn-logout" onclick="return confirm('Log out?')">Log Out</a>
-  </nav>
+  <button id="closeBtn" class="close-btn">&times;</button>
+  <div class="drawer-section">
+    <h3>System & Account</h3>
+<a href="Alert configuration.php">Alert Configuration</a>
+<a href="account settings.php">Account Settings</a>
+<a href="Alert records.php">Alert Records</a>
+<a href="user_logs.php">User Logs</a>
+<a href="Report.php">Report</a>
+  </div>
+  <a href="login.php" class="btn-logout" onclick="return confirm('Are you sure you want to log out?')">Log Out</a>
+</nav>
 
   <div class="container">
     <h1>Settings Adjustment</h1>
