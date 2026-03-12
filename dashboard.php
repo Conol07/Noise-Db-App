@@ -145,6 +145,7 @@ header h1 span { color: var(--primary); }
     <h3>System & Account</h3>
     <a href="Alert configuration.php">Alert Configuration</a>
     <a href="account settings.php">Account Settings</a>
+    <a href="Alert records.php">Alert Records</a>
     <a href="Report.php">Report</a>
   </div>
   <a href="login.php" class="btn-logout" onclick="return confirm('Are you sure you want to log out?')">Log Out</a>
@@ -165,28 +166,43 @@ header h1 span { color: var(--primary); }
       </div>
     </div>
 
-    <div class="card">
-      <h3>Classroom Status</h3>
-      <div class="classroom">
-        <span>Laboratory 1</span>
-        <span class="status normal">Normal</span>
-        
-      </div>
-      <div class="classroom">
-        <span>Laboratory 2</span>
-        <span class="status normal">Normal</span>
-      </div>
-      <div class="classroom">
-        <span>Laboratory 3</span>
-        <span class="status normal">Normal</span>
-         </div>
-    <div style="margin-top: 20px; display: flex; gap: 10px;">
-    <input type="text" id="newRoomName" placeholder="Enter Lab Name" 
-           style="padding: 8px; border: 1px solid var(--border); border-radius: 8px; flex-grow: 1;">
-    <button class="btn-primary" onclick="addRoom()" style="padding: 8px 16px;">Add</button>
-  </div>
+    <div style="display: flex; flex-direction: column; gap: 24px;">
+        <div class="card">
+            <h3>Classroom Status</h3>
+            <div id="classroomList">
+                <?php
+                require_once 'db.php';
+                $result = $conn->query("SELECT name, status FROM classrooms");
+                if ($result && $result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        echo '<div class="classroom"><span>' . htmlspecialchars($row['name']) . '</span><span class="status ' . strtolower($row['status']) . '">' . htmlspecialchars($row['status']) . '</span></div>';
+                    }
+                } else {
+                    echo '<p style="color:var(--text-muted);">No laboratories found.</p>';
+                }
+                ?>
+            </div>
+            <div style="margin-top: 20px; display: flex; gap: 10px;">
+                <input type="text" id="newRoomName" placeholder="Enter Lab Name" style="padding: 8px; border: 1px solid var(--border); border-radius: 8px; flex-grow: 1;">
+                <button class="btn-primary" onclick="addRoom()" style="padding: 8px 16px;">Add</button>
+            </div>
+        </div>
+
+       <div class="card">
+    <h3 style="margin-top:0">Recent Alert History</h3>
+    <table style="width:100%; border-collapse:collapse; font-size: 14px;">
+        <thead>
+            <tr style="color:var(--text-muted); text-align:left;">
+                <th style="padding: 8px 0;">Classroom</th> <th>Time</th> <th>Level</th> <th>Severity</th>
+            </tr>
+        </thead>
+        <tbody id="alertBody">
+            </tbody>
+    </table>
 </div>
-  </div>
+    </div>
+</div>
+  
 
   <div class="card">
     <h3>NBSC COMPUTER LAB</h3>
@@ -263,7 +279,65 @@ function toggleSim() {
   isSim = !isSim;
   alert("Mode: " + (isSim ? "Simulation" : "Live"));
 }
+
+function addRoom() {
+    const labName = document.getElementById('newRoomName').value;
+    if (!labName) return alert("Please enter a name");
+
+    const formData = new FormData();
+    formData.append('name', labName);
+
+    fetch('add_lab.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            location.reload(); // Refresh page to see new lab
+        } else {
+            alert("Error: " + data.message);
+        }
+    })
+    .catch(error => console.error('Error:', error));
+}
+function addAlertRecord() {
+    const tableBody = document.getElementById('alertBody');
+    const classrooms = ["Laboratory 1", "Laboratory 2", "Laboratory 3", "SC 201"];
+    
+    // Create data
+    const randomClass = classrooms[Math.floor(Math.random() * classrooms.length)];
+    const db = Math.floor(Math.random() * (90 - 40 + 1)) + 40;
+    const level = Math.floor(Math.random() * 3 + 1);
+    
+    let color = "#388e3c"; 
+    let label = db + " dB (Normal)";
+    if (db > 80) { color = "#d32f2f"; label = db + " dB (Critical)"; }
+    else if (db > 65) { color = "#f57c00"; label = db + " dB (Warning)"; }
+
+    // Create a new row
+    const newRow = document.createElement('tr');
+    newRow.innerHTML = `
+      <td style="padding: 12px 0;">${randomClass}</td>
+      <td style="color:#6b7280;">${new Date().toLocaleTimeString()}</td>
+      <td style="color:#6b7280;">Lvl ${level}</td>
+      <td style="color:${color}; font-weight:600;">${label}</td>
+    `;
+
+    // Prepend (add to top)
+    tableBody.prepend(newRow);
+
+    // Keep history limited to 5 rows
+    if (tableBody.rows.length > 5) {
+        tableBody.deleteRow(5);
+    }
+}
+
+// Run every 5 seconds
+setInterval(addAlertRecord, 5000);
+
 </script>
+
 
 </body>
 </html>
