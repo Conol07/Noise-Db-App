@@ -21,7 +21,7 @@
     * { box-sizing: border-box; font-family: 'Inter', sans-serif; }
     body { margin: 0; background: var(--bg); color: var(--text-dark); line-height: 1.5; }
 
-    /* Header & Navigation */
+  
     header { 
       background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(12px);
       padding: 14px 40px; border-bottom: 1px solid var(--border);
@@ -37,7 +37,7 @@
     }
     .icon-btn:hover { background: #f1f5f9; }
 
-    /* Drawer Menu */
+  
     .drawer {
       position: fixed; top: 0; right: -320px; width: 320px; height: 100%;
       background: #fff; padding: 40px 30px; transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -49,7 +49,7 @@
     .drawer-section a { display: block; padding: 14px 0; text-decoration: none; color: var(--text-dark); border-bottom: 1px solid #f1f5f9; font-weight: 500; }
     .btn-logout { margin-top: auto; background: #fff1f2; color: var(--danger); text-align: center; text-decoration: none; padding: 14px; border-radius: 12px; font-weight: 600; display: block; border: 1px solid #fee2e2; }
 
-    /* Main Content */
+  
     .container { max-width: 1100px; margin: 40px auto; padding: 0 24px; }
     h1 { margin-bottom: 25px; font-size: 24px; font-weight: 700; }
     .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; margin-bottom: 120px; }
@@ -57,7 +57,7 @@
     .card h2 { font-size: 16px; margin-bottom: 10px; }
     .card p { font-size: 13px; color: var(--text-muted); margin-bottom: 20px; }
 
-    /* Inputs */
+    
     label { font-size: 13px; font-weight: 600; display: block; margin-bottom: 8px; }
     input[type="range"] { width: 100%; margin: 10px 0; accent-color: var(--primary); }
     input[type="number"], input[type="email"], textarea { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 8px; }
@@ -79,9 +79,9 @@
   <nav id="navDrawer" class="drawer">
     <button id="closeBtn" class="close-btn">&times;</button>
     <div class="drawer-section">
-      <a href="dashboard.php">Dashboard</a>
+    
       <a href="account settings.php">Account Settings</a>
-      <a href="#">Reports</a>
+      <a href="Report.php">Reports</a>
     </div>
     <a href="login.php" class="btn-logout" onclick="return confirm('Log out?')">Log Out</a>
   </nav>

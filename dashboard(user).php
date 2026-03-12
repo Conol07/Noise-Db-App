@@ -1,3 +1,5 @@
+
+
 <?php
 session_start();
 
@@ -132,7 +134,7 @@ header h1 span { color: var(--primary); }
 <body>
 
 <header>
-  <h1>Noise<span> Monitoring</span></h1>
+  <h1>Noise<span>Sense</span></h1>
   <div class="header-actions">
     <a href="Alert records.php" class="icon-btn">🔔</a>
     <button id="menuBtn" class="icon-btn">☰</button>
@@ -145,7 +147,7 @@ header h1 span { color: var(--primary); }
     <h3>System & Account</h3>
     <a href="Alert configuration.php">Alert Configuration</a>
     <a href="account settings.php">Account Settings</a>
-    <a href="Report.php">Report</a>
+
   </div>
   <a href="login.php" class="btn-logout" onclick="return confirm('Are you sure you want to log out?')">Log Out</a>
 </nav>
@@ -179,23 +181,18 @@ header h1 span { color: var(--primary); }
       <div class="classroom">
         <span>Laboratory 3</span>
         <span class="status normal">Normal</span>
-         </div>
-    <div style="margin-top: 20px; display: flex; gap: 10px;">
-    <input type="text" id="newRoomName" placeholder="Enter Lab Name" 
-           style="padding: 8px; border: 1px solid var(--border); border-radius: 8px; flex-grow: 1;">
-    <button class="btn-primary" onclick="addRoom()" style="padding: 8px 16px;">Add</button>
-  </div>
-</div>
+      </div>
+    </div>
   </div>
 
   <div class="card">
-    <h3>NBSC COMPUTER LAB</h3>
+    <h3>Campus Monitoring Map</h3>
     <div id="map"></div>
   </div>
 </div>
 
 <footer style="text-align:center; padding:40px; color:var(--text-muted); font-size:13px;">
-  &copy; 2026 Classroom Noise Alert &bull; Northen Bukidnon State College Noise monitoring
+  &copy; 2026 Classroom Noise Alert &bull; Environment Monitoring System
 </footer>
 
 <script>

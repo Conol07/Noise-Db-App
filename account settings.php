@@ -73,8 +73,13 @@
 <nav id="navDrawer" class="drawer">
   <button id="closeBtn" class="close-btn">&times;</button>
   <div style="margin-top: 60px;">
-    <a href="dashboard.php" style="display:block; padding: 14px 0; text-decoration:none; color:inherit; border-bottom:1px solid #eee;">Dashboard</a>
+    <h4 style="color: var(--text-muted); font-size: 12px; text-transform: uppercase;">Menu</h4>
     <a href="Alert configuration.php" style="display:block; padding: 14px 0; text-decoration:none; color:inherit; border-bottom:1px solid #eee;">Alert Configuration</a>
+    <a href="Report.php" style="display:block; padding: 14px 0; text-decoration:none; color:inherit; border-bottom:1px solid #eee;">Reports</a>
+    
+    <div style="margin-top: 40px;">
+      <a href="logout.php" style="display:block; padding: 14px; text-decoration:none; color: var(--danger); border: 1px solid var(--danger); border-radius: 10px; text-align: center;">Logout</a>
+    </div>
   </div>
 </nav>
 
