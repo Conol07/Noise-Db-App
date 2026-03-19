@@ -2,7 +2,7 @@
 $host = 'localhost';
 $username = 'root';
 $password = "";
-$dbname = "noisedbmeter";
+$dbname = "noise_monitoring_system";
 $conn = new mysqli($host, $username, $password, $dbname);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);

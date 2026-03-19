@@ -1,7 +1,8 @@
 <?php
 session_start();
 
-if(!isset($_SESSION['username'])){
+// ✅ Role protection (MANAGER ONLY)
+if(!isset($_SESSION['username']) || $_SESSION['role'] !== 'manager'){
   header("Location: login.php");
   exit();
 }
@@ -12,7 +13,7 @@ if(!isset($_SESSION['username'])){
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Classroom Noise Detection – Dashboard</title>
+<title>Manager Dashboard – Noise Monitoring</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -33,312 +34,215 @@ if(!isset($_SESSION['username'])){
 }
 
 * { box-sizing: border-box; font-family: 'Inter', sans-serif; }
-body { margin: 0; background: var(--bg); color: var(--text-dark); -webkit-font-smoothing: antialiased; }
+body { margin: 0; background: var(--bg); }
 
 header {
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(12px);
-  position: sticky; top: 0; z-index: 100;
+  background: #fff;
   border-bottom: 1px solid var(--border);
   padding: 14px 32px;
   display: flex; justify-content: space-between; align-items: center;
 }
 
-header h1 { margin: 0; font-size: 18px; font-weight: 700; letter-spacing: -0.5px; }
-header h1 span { color: var(--primary); }
-
-.header-actions { display: flex; gap: 12px; align-items: center; }
-
 .icon-btn {
   background: #fff; border: 1px solid var(--border);
   padding: 8px 10px; border-radius: 10px; cursor: pointer;
-  text-decoration: none; font-size: 18px; transition: 0.2s;
 }
-.icon-btn:hover { background: #f1f5f9; transform: translateY(-1px); }
 
 .drawer {
-  position: fixed; top: 0; right: -320px;
-  width: 320px; height: 100%;
-  background: #fff; padding: 40px 30px;
-  transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: -10px 0 50px rgba(0,0,0,0.1);
-  display: flex; flex-direction: column; z-index: 1001;
+  position: fixed; top: 0; right: -300px;
+  width: 300px; height: 100%;
+  background: #fff; padding: 30px;
+  transition: 0.3s;
 }
 .drawer.open { right: 0; }
 
-.close-btn {
-  background: none; border: none; font-size: 30px;
-  cursor: pointer; align-self: flex-end; color: var(--text-muted);
-}
-
-.drawer-section { margin-top: 20px; }
-.drawer-section h3 { font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-muted); margin-bottom: 20px; }
-.drawer-section a {
-  display: block; padding: 14px 0; text-decoration: none;
-  font-weight: 500; color: var(--text-dark); border-bottom: 1px solid #f1f5f9;
-}
-.drawer-section a:hover { color: var(--primary); padding-left: 8px; }
-
-.btn-logout {
-  margin-top: auto; background: #fff1f2; color: var(--danger);
-  text-align: center; text-decoration: none; padding: 14px;
-  border-radius: 12px; font-weight: 600; border: 1px solid #fee2e2;
-}
-
-.container { max-width: 1100px; margin: 40px auto; padding: 0 24px; }
+.container { max-width: 1100px; margin: 40px auto; padding: 0 20px; }
 
 .card {
-  background: var(--card); padding: 30px; border-radius: 24px;
-  margin-bottom: 24px; border: 1px solid var(--border);
-  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+  background: var(--card);
+  padding: 25px;
+  border-radius: 16px;
+  margin-bottom: 20px;
+  border: 1px solid var(--border);
 }
 
-#map { height: 400px; border-radius: 16px; margin-bottom: 20px; }
+.db-value { font-size: 70px; font-weight: bold; text-align:center; }
 
-.live-db { text-align: center; }
-.live-db h2 { font-size: 13px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 15px; }
-
-.db-value { font-size: 84px; font-weight: 800; color: var(--text-dark); margin: 15px 0; letter-spacing: -2px; }
-.db-value span { font-size: 24px; font-weight: 500; color: var(--text-muted); margin-left: 5px; letter-spacing: 0; }
-
-.btn-primary {
-  background: var(--primary); color: #fff; border: none;
-  padding: 12px 32px; border-radius: 50px; font-weight: 600;
-  cursor: pointer; box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3); transition: 0.2s;
-}
-.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4); }
-
-.grid { display: grid; grid-template-columns: 1.6fr 1fr; gap: 24px; }
-
-.card h3 { font-size: 16px; font-weight: 700; margin-top: 0; margin-bottom: 25px; color: var(--text-dark); }
+.grid { display: grid; grid-template-columns: 1.6fr 1fr; gap: 20px; }
 
 .classroom {
-  display: flex; justify-content: space-between; align-items: center;
-  padding: 16px 0; border-bottom: 1px solid #f1f5f9;
+  display: flex; justify-content: space-between;
+  padding: 12px 0; border-bottom: 1px solid #eee;
 }
-.classroom:last-child { border: none; }
-.classroom span { font-weight: 500; font-size: 15px; }
 
-.status {
-  padding: 5px 14px; border-radius: 20px;
-  font-size: 11px; font-weight: 700; text-transform: uppercase;
-}
-.normal { background: #dcfce7; color: #15803d; }
+.status { padding: 4px 10px; border-radius: 10px; font-size: 12px; }
+.normal { background: #dcfce7; color: green; }
+.warning { background: #fef3c7; color: orange; }
+.critical { background: #fee2e2; color: red; }
 
-@media(max-width:900px){ .grid { grid-template-columns: 1fr; } }
+button { cursor:pointer; }
+
+#map { height: 300px; border-radius: 10px; }
 </style>
 </head>
 
 <body>
 
 <header>
-  <h1>Noise<span> Monitoring</span></h1>
-  <div class="header-actions">
-    <a href="Alert records.php" class="icon-btn">🔔</a>
+  <h2>Manager Dashboard</h2>
+  <div>
     <button id="menuBtn" class="icon-btn">☰</button>
   </div>
 </header>
 
-<nav id="navDrawer" class="drawer">
-  <button id="closeBtn" class="close-btn">&times;</button>
-  <div class="drawer-section">
-    <h3>System & Account</h3>
-<a href="Alert configuration.php">Alert Configuration</a>
-<a href="account settings.php">Account Settings</a>
-<a href="Alert records.php">Alert Records</a>
-<a href="user_logs.php">User Logs</a>
-<a href="Report.php">Report</a>
-  </div>
-  <a href="login.php" class="btn-logout" onclick="return confirm('Are you sure you want to log out?')">Log Out</a>
-</nav>
+<!-- Sidebar -->
+<div id="drawer" class="drawer">
+  <h3>Manager Panel</h3>
+  <a href="dashboard.php">Dashboard</a><br><br>
+  <a href="Alert records.php">Alerts</a><br><br>
+  <a href="Report.php">Reports</a><br><br>
+  <a href="account settings.php">Account</a><br><br>
+  <a href="login.php">Logout</a>
+</div>
 
 <div class="container">
-  <div class="card live-db">
-    <h2>Live Intensity</h2>
-    <div class="db-value" id="dbValue">48<span>dB</span></div>
-    <button class="btn-primary" onclick="toggleSim()">Activate DB</button>
-  </div>
 
-  <div class="grid">
-    <div class="card">
-      <h3>Noise Trend (Last Hour)</h3>
-      <div style="height: 250px;">
-        <canvas id="noiseChart"></canvas>
-      </div>
+<!-- Live -->
+<div class="card">
+  <h3>Live Intensity (Selected Room)</h3>
+  <select id="roomSelect">
+    <option>Laboratory 1</option>
+    <option>Laboratory 2</option>
+  </select>
+  <div class="db-value" id="dbValue">50 dB</div>
+</div>
+
+<div class="grid">
+
+<!-- Chart -->
+<div class="card">
+  <h3>Noise Trend</h3>
+  <canvas id="chart"></canvas>
+</div>
+
+<!-- Rooms -->
+<div class="card">
+  <h3>Classroom Status</h3>
+
+<?php
+require_once 'db.php';
+$res = $conn->query("SELECT name,status FROM classrooms");
+
+while($row = $res->fetch_assoc()){
+  echo '
+  <div class="classroom">
+    <div>
+      <strong>'.$row['name'].'</strong><br>
+      <small>Updated just now</small>
     </div>
-
-    <div style="display: flex; flex-direction: column; gap: 24px;">
-        <div class="card">
-            <h3>Classroom Status</h3>
-            <div id="classroomList">
-                <?php
-                require_once 'db.php';
-                $result = $conn->query("SELECT name, status FROM classrooms");
-                if ($result && $result->num_rows > 0) {
-                    while ($row = $result->fetch_assoc()) {
-                        echo '<div class="classroom"><span>' . htmlspecialchars($row['name']) . '</span><span class="status ' . strtolower($row['status']) . '">' . htmlspecialchars($row['status']) . '</span></div>';
-                    }
-                } else {
-                    echo '<p style="color:var(--text-muted);">No laboratories found.</p>';
-                }
-                ?>
-            </div>
-            <div style="margin-top: 20px; display: flex; gap: 10px;">
-                <input type="text" id="newRoomName" placeholder="Enter Lab Name" style="padding: 8px; border: 1px solid var(--border); border-radius: 8px; flex-grow: 1;">
-                <button class="btn-primary" onclick="addRoom()" style="padding: 8px 16px;">Add</button>
-            </div>
-        </div>
-
-       <div class="card">
-    <h3 style="margin-top:0">Recent Alert History</h3>
-    <table style="width:100%; border-collapse:collapse; font-size: 14px;">
-        <thead>
-            <tr style="color:var(--text-muted); text-align:left;">
-                <th style="padding: 8px 0;">Classroom</th> <th>Time</th> <th>Level</th> <th>Severity</th>
-            </tr>
-        </thead>
-        <tbody id="alertBody">
-            </tbody>
-    </table>
-</div>
+    <div>
+      <span class="status '.strtolower($row['status']).'">'.$row['status'].'</span>
+      <button onclick="ackRoom(\''.$row['name'].'\')">✔</button>
     </div>
-</div>
-  
+  </div>';
+}
+?>
 
-  <div class="card">
-    <h3>NBSC COMPUTER LAB</h3>
-    <div id="map"></div>
-  </div>
 </div>
 
-<footer style="text-align:center; padding:40px; color:var(--text-muted); font-size:13px;">
-  &copy; 2026 Classroom Noise Alert &bull; Northen Bukidnon State College Noise monitoring
-</footer>
+</div>
+
+<!-- Alerts -->
+<div class="card">
+<h3>Recent Alerts</h3>
+<table width="100%">
+<thead>
+<tr><th>Room</th><th>Time</th><th>Level</th><th>Action</th></tr>
+</thead>
+<tbody id="alertBody"></tbody>
+</table>
+</div>
+
+<!-- Insights -->
+<div class="card">
+<h3>Manager Insights</h3>
+<ul>
+<li>Lab 1 is noisy every afternoon</li>
+<li>Peak noise during class change</li>
+<li>Average today: 58 dB</li>
+</ul>
+</div>
+
+<!-- Quick Action -->
+<div class="card">
+<h3>Quick Actions</h3>
+<button onclick="sendWarning()">Send Warning</button>
+</div>
+
+<!-- Map -->
+<div class="card">
+<h3>Lab Locations</h3>
+<div id="map"></div>
+</div>
+
+</div>
 
 <script>
-const map = L.map('map').setView([8.3615, 124.8724], 17);
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  attribution: '&copy; OpenStreetMap contributors'
-}).addTo(map);
+// Sidebar
+menuBtn.onclick = () => drawer.classList.toggle("open");
 
-L.marker([8.359731, 124.869193]).addTo(map)
-L.marker([8.359675, 124.869180]).addTo(map)
-L.marker([8.359619, 124.869167]).addTo(map)
-    .bindPopup('Laboratory 1')
-    .bindPopup('Laboratory 2')
-    .bindPopup('Laboratory 3')
-    .openPopup();
-
-const menuBtn = document.getElementById('menuBtn');
-const navDrawer = document.getElementById('navDrawer');
-const closeBtn = document.getElementById('closeBtn');
-
-menuBtn.onclick = () => navDrawer.classList.add('open');
-closeBtn.onclick = () => navDrawer.classList.remove('open');
-
-const ctx = document.getElementById('noiseChart').getContext('2d');
-const gradient = ctx.createLinearGradient(0, 0, 0, 300);
-gradient.addColorStop(0, 'rgba(37, 99, 235, 0.1)');
-gradient.addColorStop(1, 'rgba(37, 99, 235, 0)');
-
-const noiseChart = new Chart(ctx, {
-  type: 'line',
-  data: {
-    labels: ['1h','50m','40m','30m','20m','Now'],
-    datasets: [{
-      data: [52,63,58,67,55,48],
-      borderColor: '#2563eb',
-      borderWidth: 3,
-      pointRadius: 0,
-      fill: true,
-      backgroundColor: gradient,
-      tension: 0.4
-    }]
-  },
-  options: {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: { legend: { display: false } },
-    scales: {
-      y: { display: false, min: 30, max: 100 },
-      x: { grid: { display: false }, border: { display: false }, ticks: { color: '#94a3b8' } }
-    }
+// Chart
+const ctx = document.getElementById('chart');
+new Chart(ctx, {
+  type:'line',
+  data:{
+    labels:["1h","50m","40m","30m","20m","Now"],
+    datasets:[{data:[50,60,55,70,65,50]}]
   }
 });
 
-let isSim = true;
-setInterval(() => {
-  if(!isSim) return;
+// Live simulation
+setInterval(()=>{
   let db = Math.floor(Math.random()*40+40);
-  document.getElementById("dbValue").innerHTML = db + "<span>dB</span>";
-  noiseChart.data.datasets[0].data.shift();
-  noiseChart.data.datasets[0].data.push(db);
-  noiseChart.update('none'); 
-}, 3000);
+  document.getElementById("dbValue").innerText = db+" dB";
+},2000);
 
-function toggleSim() {
-  isSim = !isSim;
-  alert("Mode: " + (isSim ? "Simulation" : "Live"));
+// Acknowledge
+function ackRoom(name){
+  alert(name+" checked");
 }
 
-function addRoom() {
-    const labName = document.getElementById('newRoomName').value;
-    if (!labName) return alert("Please enter a name");
-
-    const formData = new FormData();
-    formData.append('name', labName);
-
-    fetch('add_lab.php', {
-        method: 'POST',
-        body: formData
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            location.reload(); // Refresh page to see new lab
-        } else {
-            alert("Error: " + data.message);
-        }
-    })
-    .catch(error => console.error('Error:', error));
+// Alerts simulation
+function addAlert(){
+  let row = `<tr>
+  <td>Lab 1</td>
+  <td>${new Date().toLocaleTimeString()}</td>
+  <td>75 dB</td>
+  <td><button onclick="resolve(this)">Resolve</button></td>
+  </tr>`;
+  alertBody.innerHTML = row + alertBody.innerHTML;
 }
-function addAlertRecord() {
-    const tableBody = document.getElementById('alertBody');
-    const classrooms = ["Laboratory 1", "Laboratory 2", "Laboratory 3", "SC 201"];
-    
-    // Create data
-    const randomClass = classrooms[Math.floor(Math.random() * classrooms.length)];
-    const db = Math.floor(Math.random() * (90 - 40 + 1)) + 40;
-    const level = Math.floor(Math.random() * 3 + 1);
-    
-    let color = "#388e3c"; 
-    let label = db + " dB (Normal)";
-    if (db > 80) { color = "#d32f2f"; label = db + " dB (Critical)"; }
-    else if (db > 65) { color = "#f57c00"; label = db + " dB (Warning)"; }
+setInterval(addAlert,5000);
 
-    // Create a new row
-    const newRow = document.createElement('tr');
-    newRow.innerHTML = `
-      <td style="padding: 12px 0;">${randomClass}</td>
-      <td style="color:#6b7280;">${new Date().toLocaleTimeString()}</td>
-      <td style="color:#6b7280;">Lvl ${level}</td>
-      <td style="color:${color}; font-weight:600;">${label}</td>
-    `;
-
-    // Prepend (add to top)
-    tableBody.prepend(newRow);
-
-    // Keep history limited to 5 rows
-    if (tableBody.rows.length > 5) {
-        tableBody.deleteRow(5);
-    }
+function resolve(btn){
+  btn.innerText="Done";
+  btn.disabled=true;
 }
 
-// Run every 5 seconds
-setInterval(addAlertRecord, 5000);
+// Warning
+function sendWarning(){
+  alert("Warning sent!");
+}
+
+// Map
+const map = L.map('map').setView([8.3597,124.8691],17);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+L.marker([8.359731,124.869193]).addTo(map).bindPopup("Lab 1");
+L.marker([8.359675,124.869180]).addTo(map).bindPopup("Lab 2");
+L.marker([8.359619,124.869167]).addTo(map).bindPopup("Lab 3");
 
 </script>
-
 
 </body>
 </html>
